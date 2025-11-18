@@ -1,10 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using MVCVoertuig.Models.ViewModels;
 
 namespace MVCVoertuig.Controllers
 {
     public class AccountController : Controller
     {
+        UserManager<IdentityUser> _userManager;
+        public AccountController(UserManager<IdentityUser> userManager)
+        {
+            _userManager = userManager;
+        }
         public IActionResult Index()
         {
             return View();
