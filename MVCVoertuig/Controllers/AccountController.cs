@@ -77,5 +77,12 @@ namespace MVCVoertuig.Controllers
             return View();
         }
         #endregion
+
+      
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login");
+        }
     }
 }
