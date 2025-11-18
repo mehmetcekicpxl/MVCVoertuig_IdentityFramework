@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MVCVoertuig.Data;
 using MVCVoertuig.Models;
 
 namespace MVCVoertuig.Controllers
 {
+    //zonder authorize je kan niks doen 
+    [Authorize]
     public class VoertuigController : Controller
     {
         #region DI

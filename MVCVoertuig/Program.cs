@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVCVoertuig.Data;
@@ -10,6 +11,7 @@ builder.Services.AddControllersWithViews();
 //SQL server - service
 var connectionString = builder.Configuration.GetConnectionString("VoertuigConnection");
 builder.Services.AddDbContext<VoertuigDbContext>(options=>options.UseSqlServer(connectionString));
+builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddEntityFrameworkStores<VoertuigDbContext>();
 
 var app = builder.Build();
 
@@ -25,7 +27,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
