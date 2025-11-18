@@ -9,9 +9,11 @@ namespace MVCVoertuig.Controllers
     public class AccountController : Controller
     {
         UserManager<IdentityUser> _userManager;
-        public AccountController(UserManager<IdentityUser> userManager)
+        SignInManager<IdentityUser> _signInManager;
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
         public IActionResult Index()
         {
