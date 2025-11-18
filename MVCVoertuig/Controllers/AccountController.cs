@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using MVCVoertuig.Models.ViewModels;
+using System.Threading.Tasks;
 
 namespace MVCVoertuig.Controllers
 {
@@ -35,8 +37,27 @@ namespace MVCVoertuig.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Register(LoginViewModel model)
+        public async Task<IActionResult> Register(LoginViewModel model)
         {
+            if(ModelState.IsValid)
+            {
+                IdentityUser user = new IdentityUser();
+                user.Email=model.Email;
+                user.UserName = model.Email;
+                var result = await _userManager.CreateAsync(user,model.Password);
+
+                if (result.Succeeded)
+                {
+                    return View("Login");
+                }
+                else
+                {
+                    foreach(var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+            }
             return View();
         }
         #endregion
