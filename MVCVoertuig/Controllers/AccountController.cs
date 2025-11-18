@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using MVCVoertuig.Models;
 using MVCVoertuig.Models.ViewModels;
 using System.Threading.Tasks;
 
@@ -27,8 +28,21 @@ namespace MVCVoertuig.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
+            if(ModelState.IsValid)
+            {
+                var user =_userManager.Users.Where(x=>x.Email==model.Email).FirstOrDefault();
+                var result = await _signInManager.PasswordSignInAsync(model.Email,model.Password,false,false);
+                if(result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Voertuig");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Probeem met inloggen");
+            }
             return View();
         }
         #endregion
